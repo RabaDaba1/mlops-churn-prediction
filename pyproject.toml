@@ -1,0 +1,23 @@
+[project]
+name = "mlops-churn-prediction"
+version = "0.1.0"
+description = "MLOps project for real-time customer churn prediction."
+requires-python = "~=3.11"
+dependencies = [
+    "feast[dragonfly]",
+    "prometheus-fastapi-instrumentator",
+    "fastapi>=0.115.14",
+    "uvicorn[standard]>=0.35.0",
+    "scikit-learn>=1.7.0",
+    "pandas>=2.3.0",
+    "mlflow>=3.1.1",
+    "apache-airflow>=3.0.2",
+    "kafka-python>=2.2.15",
+    "dvc>=3.60.1",
+    "kagglehub>=0.3.12",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.4.1",
+]
