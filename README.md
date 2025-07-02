@@ -18,6 +18,7 @@ The goal is to build a reproducible and automated machine learning system using 
 -   **Model Serving:** KServe on Kubernetes
 -   **Monitoring:** Prometheus & Grafana
 
+
 ## How to install
 
 1.  **Create a virtual environment and install dependencies:**

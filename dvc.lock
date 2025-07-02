@@ -5,19 +5,71 @@ stages:
     deps:
     - path: src/config.py
       hash: md5
-      md5: 11bf1c4fd9f96a78f93b9b7fa0a03c7b
-      size: 261
+      md5: 99c8424cd9b050474fa723c6c6eb51c7
+      size: 655
     - path: src/data_collection.py
       hash: md5
-      md5: 4a5ba4d917c205bac720a0bccd8b4ca2
-      size: 1128
+      md5: fa118679a97d9a3d3da4fe11542b12d9
+      size: 931
     - path: src/logs.py
       hash: md5
       md5: e4b6a25cb94fc98e3ad8d72ee3a13aef
       size: 776
     outs:
-    - path: data/raw
+    - path: artifacts/data/raw
       hash: md5
       md5: 4ecc3e06c09e9e7e80fcec125003939e.dir
       size: 3217845
       nfiles: 1
+  data_cleaning:
+    cmd: uv run python -m src.data_cleaning
+    deps:
+    - path: artifacts/data/raw
+      hash: md5
+      md5: 4ecc3e06c09e9e7e80fcec125003939e.dir
+      size: 3217845
+      nfiles: 1
+    - path: src/config.py
+      hash: md5
+      md5: 99c8424cd9b050474fa723c6c6eb51c7
+      size: 655
+    - path: src/data_cleaning.py
+      hash: md5
+      md5: 591669aed2a68156f5dd9b946e640087
+      size: 853
+    - path: src/logs.py
+      hash: md5
+      md5: e4b6a25cb94fc98e3ad8d72ee3a13aef
+      size: 776
+    outs:
+    - path: artifacts/data/processed
+      hash: md5
+      md5: 7c18f659bda089c71935410861fdb656.dir
+      size: 2842696
+      nfiles: 1
+  data_split:
+    cmd: uv run python -m src.data_split
+    deps:
+    - path: artifacts/data/processed
+      hash: md5
+      md5: 7c18f659bda089c71935410861fdb656.dir
+      size: 2842696
+      nfiles: 1
+    - path: src/config.py
+      hash: md5
+      md5: 99c8424cd9b050474fa723c6c6eb51c7
+      size: 655
+    - path: src/data_split.py
+      hash: md5
+      md5: 58e4c7684ec04cce5fee54bf1229779b
+      size: 1574
+    - path: src/logs.py
+      hash: md5
+      md5: e4b6a25cb94fc98e3ad8d72ee3a13aef
+      size: 776
+    outs:
+    - path: artifacts/data/split
+      hash: md5
+      md5: 373634af659bdeb4a26a0556eda3e45d.dir
+      size: 2842827
+      nfiles: 2

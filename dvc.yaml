@@ -6,13 +6,31 @@ stages:
     - src/data_collection.py
     - src/logs.py
     outs:
-    - data/raw
-  data_preparation:
-    cmd: uv run python -m src.data_preparation
+    - artifacts/data/raw
+  data_cleaning:
+    cmd: uv run python -m src.data_cleaning
     deps:
-    - data/raw
+    - artifacts/data/raw
     - src/config.py
-    - src/data_preparation.py
+    - src/data_cleaning.py
     - src/logs.py
     outs:
-    - data/processed
+    - artifacts/data/processed
+  data_split:
+    cmd: uv run python -m src.data_split
+    deps:
+    - artifacts/data/processed
+    - src/config.py
+    - src/data_split.py
+    - src/logs.py
+    outs:
+    - artifacts/data/split
+  feature_engineering:
+    cmd: uv run python -m src.feature_engineering
+    deps:
+    - artifacts/data/split
+    - src/config.py
+    - src/feature_engineering.py
+    - src/logs.py
+    outs:
+    - artifacts/data/features
