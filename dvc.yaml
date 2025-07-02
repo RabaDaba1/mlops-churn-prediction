@@ -7,3 +7,12 @@ stages:
     - src/logs.py
     outs:
     - data/raw
+  data_preparation:
+    cmd: uv run python -m src.data_preparation
+    deps:
+    - data/raw
+    - src/config.py
+    - src/data_preparation.py
+    - src/logs.py
+    outs:
+    - data/processed
