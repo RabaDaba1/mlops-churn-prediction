@@ -23,7 +23,7 @@ The goal is to build a reproducible and automated machine learning system using 
 1.  **Create a virtual environment and install dependencies:**
     ```bash
     uv python install 3.11
-    uv sync --extra dev
+    uv sync --dev
     ```
 
 2.  **Set up pre-commit hooks (optional but recommended):**
