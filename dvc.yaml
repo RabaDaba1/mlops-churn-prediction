@@ -1,0 +1,9 @@
+stages:
+  data_collection:
+    cmd: uv run python -m src.data_collection
+    deps:
+    - src/config.py
+    - src/data_collection.py
+    - src/logs.py
+    outs:
+    - data/raw

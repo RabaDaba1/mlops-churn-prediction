@@ -1,0 +1,23 @@
+schema: '2.0'
+stages:
+  data_collection:
+    cmd: uv run python -m src.data_collection
+    deps:
+    - path: src/config.py
+      hash: md5
+      md5: 11bf1c4fd9f96a78f93b9b7fa0a03c7b
+      size: 261
+    - path: src/data_collection.py
+      hash: md5
+      md5: 4a5ba4d917c205bac720a0bccd8b4ca2
+      size: 1128
+    - path: src/logs.py
+      hash: md5
+      md5: e4b6a25cb94fc98e3ad8d72ee3a13aef
+      size: 776
+    outs:
+    - path: data/raw
+      hash: md5
+      md5: 4ecc3e06c09e9e7e80fcec125003939e.dir
+      size: 3217845
+      nfiles: 1
