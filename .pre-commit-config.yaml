@@ -1,0 +1,24 @@
+repos:
+- repo: https://github.com/astral-sh/uv-pre-commit
+  rev: 0.7.6
+  hooks:
+    - id: uv-lock
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+    -   id: trailing-whitespace
+    -   id: end-of-file-fixer
+    -   id: check-yaml
+    -   id: check-added-large-files
+-   repo: https://github.com/psf/black
+    rev: 24.4.2
+    hooks:
+    -   id: black
+-   repo: https://github.com/iterative/dvc
+    rev: 3.60.1
+    hooks:
+    -   id: dvc-pre-commit
+    -   id: dvc-pre-push
+    -   id: dvc-post-checkout
+        stages: [post-checkout]
+        always_run: true

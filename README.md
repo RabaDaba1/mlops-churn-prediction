@@ -20,10 +20,16 @@ The goal is to build a reproducible and automated machine learning system using 
 
 ## How to install
 
-2.  **Create a virtual environment and install dependencies:**
+1.  **Create a virtual environment and install dependencies:**
     ```bash
     uv python install 3.11
     uv sync --extra dev
+    ```
+
+2.  **Set up pre-commit hooks (optional but recommended):**
+    This will ensure code quality and run DVC hooks automatically.
+    ```bash
+    pre-commit install --hook-type pre-commit --hook-type pre-push --hook-type post-checkout
     ```
 
 3.  **Set up Kaggle API credentials:**
@@ -32,3 +38,12 @@ The goal is to build a reproducible and automated machine learning system using 
     -   This will download a `kaggle.json` file.
     -   Place this file in `~/.kaggle/kaggle.json`.
 
+## How to run
+
+To run the full data pipeline, use DVC:
+
+```bash
+dvc repro
+```
+
+This command will execute all stages defined in `dvc.yaml`.
