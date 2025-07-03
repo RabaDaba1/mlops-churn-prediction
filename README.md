@@ -73,7 +73,7 @@ The API is configured to use a specific model version to ensure stability. This 
     Commit this change to version control your API and model pairing.
 
 2.  **Set W&B environment variables:**
-    The API service needs to connect to W&B to download the model.
+    The API service needs to connect to W&B to download the model and preprocessor.
     ```bash
     export WANDB_PROJECT="customer-churn-prediction"
     export WANDB_ENTITY="your-wandb-username"

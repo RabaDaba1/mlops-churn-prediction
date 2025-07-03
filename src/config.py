@@ -37,7 +37,7 @@ CLEANED_DATA_FILE = "cleaned_data.csv"
 KAGGLE_DATASET_NAME = "muhammadshahidazeem/customer-churn-dataset"
 
 # W&B
-WANDB_MODEL_NAME = "churn-model"
+WANDB_MODEL_NAME = "customer-churn-model"
 WANDB_MODEL_VERSION = "v0"
 
 # Columns

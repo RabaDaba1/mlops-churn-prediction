@@ -17,9 +17,7 @@ import wandb
 from src.config import (
     FEATURES_DIR,
     MODEL_DIR,
-    PARAMS_FILE,
     TARGET_COLUMN,
-    VERSION_FILE,
     WANDB_MODEL_NAME,
     config,
 )
@@ -28,25 +26,9 @@ from src.logs import get_logger
 logger = get_logger("model_training")
 
 
-def get_and_increment_version(version_file: Path) -> str:
-    with open(version_file, "r+") as f:
-        version_str = f.read().strip()
-        if not version_str.startswith("v"):
-            raise ValueError("Version file is corrupted")
-        current_version_num = int(version_str[1:])
-        current_version = f"v{current_version_num}"
-        next_version_num = current_version_num + 1
-        f.seek(0)
-        f.write(f"v{next_version_num}")
-        f.truncate()
-    return current_version
-
-
 def train_model(
     input_path: Path = FEATURES_DIR,
-    params_file: Path = PARAMS_FILE,
     target_column: str = TARGET_COLUMN,
-    version_file: Path = VERSION_FILE,
 ):
     logger.info("Starting model training...")
 
@@ -101,9 +83,6 @@ def train_model(
     model.save_model(str(model_path))
     logger.info(f"Model saved to {model_path}")
 
-    model_version = get_and_increment_version(version_file)
-    logger.info(f"Using model version: {model_version}")
-
     model_artifact = wandb.Artifact(
         WANDB_MODEL_NAME,
         type="model",
@@ -111,7 +90,6 @@ def train_model(
         metadata={
             "git_commit": git_commit,
             "data_url": data_url,
-            "version": model_version,
         },
     )
     model_artifact.add_file(str(model_path))
@@ -119,7 +97,7 @@ def train_model(
     wandb.log_artifact(
         model_artifact,
         name=WANDB_MODEL_NAME,
-        aliases=["latest", model_version],
+        aliases=["latest"],
     )
 
     run.finish()
