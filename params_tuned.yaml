@@ -1,11 +1,11 @@
 xgboost:
-  colsample_bytree: 0.843844739951734
+  colsample_bytree: 0.996238084666421
   eval_metric: logloss
-  gamma: 0.5846356226898278
-  learning_rate: 0.11512816044759973
-  max_depth: 7
-  min_child_weight: 5
-  n_estimators: 268
+  gamma: 0.22358036770110373
+  learning_rate: 0.16459080392616407
+  max_depth: 10
+  min_child_weight: 4
+  n_estimators: 296
   objective: binary:logistic
   random_state: 42
-  subsample: 0.5699453676777605
+  subsample: 0.6518479490069033

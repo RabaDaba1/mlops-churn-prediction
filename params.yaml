@@ -1,15 +1,15 @@
 random_state: 42
 hyperparameters:
-  colsample_bytree: 0.895032627521918
+  colsample_bytree: 0.996238084666421
   eval_metric: logloss
-  gamma: 0.22617247170900845
-  learning_rate: 0.06027417643487399
+  gamma: 0.22358036770110373
+  learning_rate: 0.16459080392616407
   max_depth: 10
-  min_child_weight: 10
-  n_estimators: 292
+  min_child_weight: 4
+  n_estimators: 296
   objective: binary:logistic
   random_state: 42
-  subsample: 0.7906741478683104
+  subsample: 0.6518479490069033
 data_split:
   test_size: 0.2
 target_column: churn

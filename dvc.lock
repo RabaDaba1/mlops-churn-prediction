@@ -121,8 +121,8 @@ stages:
       size: 2222
     - path: params.yaml
       hash: md5
-      md5: bb4cada1c0c3aac0e9756d50cfffaa97
-      size: 354
+      md5: 10136c4b0ba1073cbd919bfabfa072f0
+      size: 349
     - path: src/config.py
       hash: md5
       md5: 6ecc535bbc34c74f2a5465f134706dcb
@@ -137,10 +137,10 @@ stages:
       size: 3571
     - path: version.txt
       hash: md5
-      md5: 0af45c99beb7a9afc9192665c4a05cd3
+      md5: e6dd71377633723164aeea0750ddafa8
       size: 2
     outs:
     - path: artifacts/models/model.json
       hash: md5
-      md5: 975cc1e964875dcd188ce801c6eca4e8
-      size: 1290676
+      md5: 5d461902f6a52214ff752bf88f31b45b
+      size: 500406
