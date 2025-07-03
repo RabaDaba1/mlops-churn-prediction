@@ -5,12 +5,12 @@ stages:
     deps:
     - path: src/config.py
       hash: md5
-      md5: 99c8424cd9b050474fa723c6c6eb51c7
-      size: 655
+      md5: 443ce8e057e1c570206768f125b38a84
+      size: 998
     - path: src/data_collection.py
       hash: md5
-      md5: fa118679a97d9a3d3da4fe11542b12d9
-      size: 931
+      md5: 2275ad4a0fa898e8077fe8f030c33c8f
+      size: 1005
     - path: src/logs.py
       hash: md5
       md5: e4b6a25cb94fc98e3ad8d72ee3a13aef
@@ -31,12 +31,12 @@ stages:
       nfiles: 1
     - path: src/config.py
       hash: md5
-      md5: 99c8424cd9b050474fa723c6c6eb51c7
-      size: 655
+      md5: 443ce8e057e1c570206768f125b38a84
+      size: 998
     - path: src/data_cleaning.py
       hash: md5
-      md5: 591669aed2a68156f5dd9b946e640087
-      size: 853
+      md5: 019022438b8b6ca6060c05c85b692bb7
+      size: 1006
     - path: src/logs.py
       hash: md5
       md5: e4b6a25cb94fc98e3ad8d72ee3a13aef
@@ -57,12 +57,12 @@ stages:
       nfiles: 1
     - path: src/config.py
       hash: md5
-      md5: 99c8424cd9b050474fa723c6c6eb51c7
-      size: 655
+      md5: 443ce8e057e1c570206768f125b38a84
+      size: 998
     - path: src/data_split.py
       hash: md5
-      md5: 58e4c7684ec04cce5fee54bf1229779b
-      size: 1574
+      md5: f3e00f221703a0516e6781e05458e1af
+      size: 1810
     - path: src/logs.py
       hash: md5
       md5: e4b6a25cb94fc98e3ad8d72ee3a13aef
@@ -72,4 +72,30 @@ stages:
       hash: md5
       md5: 373634af659bdeb4a26a0556eda3e45d.dir
       size: 2842827
+      nfiles: 2
+  feature_engineering:
+    cmd: uv run python -m src.feature_engineering
+    deps:
+    - path: artifacts/data/split
+      hash: md5
+      md5: 373634af659bdeb4a26a0556eda3e45d.dir
+      size: 2842827
+      nfiles: 2
+    - path: src/config.py
+      hash: md5
+      md5: 443ce8e057e1c570206768f125b38a84
+      size: 998
+    - path: src/feature_engineering.py
+      hash: md5
+      md5: b7856d9ea28dd4be87882444b46c1df3
+      size: 2007
+    - path: src/logs.py
+      hash: md5
+      md5: e4b6a25cb94fc98e3ad8d72ee3a13aef
+      size: 776
+    outs:
+    - path: artifacts/data/features
+      hash: md5
+      md5: e82a36f54a74823a07042e0cbaa78365.dir
+      size: 2711037
       nfiles: 2
