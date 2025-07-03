@@ -9,12 +9,12 @@ The goal is to build a reproducible and automated machine learning system using 
 ### Technology Stack
 
 -   **Data & Pipeline Versioning:** DVC (+ Git)
+-   **Experiment Tracking & Model Registry:** Weights & Biases (W&B)
 -   **Feature Store:** Feast
+-   **CI/CD:** GitHub Actions
 -   **Data Streaming:** Apache Kafka
 -   **Workflow Orchestration:** Apache Airflow
 -   **Containerization & Orchestration:** Docker & Kubernetes
--   **CI/CD:** GitHub Actions
--   **Experiment Tracking & Model Registry:** Weights & Biases (W&B)
 -   **Model Serving:** KServe on Kubernetes
 -   **Monitoring:** Prometheus & Grafana
 
@@ -59,3 +59,25 @@ dvc repro
 ```
 
 This command will execute all stages defined in `dvc.yaml`, including data processing, feature engineering, and model training.
+
+## How to run the prediction service
+
+1.  **Set W&B environment variables:**
+    The API service needs to connect to W&B to download the model.
+    ```bash
+    export WANDB_PROJECT="customer-churn-prediction"
+    export WANDB_ENTITY="your-wandb-username"
+    ```
+
+2.  **Start the FastAPI server:**
+    ```bash
+    uvicorn src.api.main:app --reload
+    ```
+    The API will be available at `http://127.0.0.1:8000`.
+
+3.  **Send a prediction request:**
+    You can use the example client to send a request to the running server.
+    ```bash
+    dvc repro predict
+    ```
+    This will run the `src/api/client.py` script, which sends a sample request and prints the prediction.

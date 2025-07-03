@@ -1,6 +1,8 @@
 import os
 from pathlib import Path
 
+import dvc.api
+import git
 import pandas as pd
 import yaml
 from sklearn.metrics import (
@@ -13,7 +15,13 @@ from sklearn.metrics import (
 from xgboost import XGBClassifier
 
 import wandb
-from src.config import FEATURES_DIR, MODEL_DIR, PARAMS_FILE, TARGET_COLUMN
+from src.config import (
+    FEATURES_DIR,
+    MODEL_DIR,
+    PARAMS_FILE,
+    TARGET_COLUMN,
+    WANDB_MODEL_NAME,
+)
 from src.logs import get_logger
 
 logger = get_logger("model_training")
@@ -39,9 +47,19 @@ def train_model(
 
     xgb_params = params["xgboost"]
 
+    repo = git.Repo(search_parent_directories=True)
+    git_commit = repo.head.object.hexsha
+    data_url = dvc.api.get_url(path=str(input_path), repo=repo.working_tree_dir)
+
+    config = {
+        "git_commit": git_commit,
+        "data_url": data_url,
+        **xgb_params,
+    }
+
     run = wandb.init(
         project=os.getenv("WANDB_PROJECT"),
-        config=xgb_params,
+        config=config,
         job_type="training",
     )
 
@@ -62,19 +80,27 @@ def train_model(
     logger.info(f"Model metrics: {metrics}")
     wandb.log(metrics)
 
-    # Save model to the models directory instead of current directory
     model_path = MODEL_DIR / "model.json"
     model.save_model(str(model_path))
     logger.info(f"Model saved to {model_path}")
 
     model_artifact = wandb.Artifact(
-        "churn-model",
+        WANDB_MODEL_NAME,
         type="model",
         description="XGBoost churn prediction model",
-        metadata=xgb_params,
+        metadata={
+            "git_commit": git_commit,
+            "data_url": data_url,
+            **xgb_params,
+        },
     )
     model_artifact.add_file(str(model_path))
-    wandb.log_artifact(model_artifact)
+    model_artifact.add_file(str(MODEL_DIR / "preprocessor.joblib"))
+    wandb.log_artifact(
+        model_artifact,
+        registered_model_name=WANDB_MODEL_NAME,
+        aliases=["latest"],
+    )
 
     run.finish()
     logger.info("Model training complete and artifact logged to W&B.")

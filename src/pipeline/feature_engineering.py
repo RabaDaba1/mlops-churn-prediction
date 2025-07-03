@@ -1,9 +1,10 @@
 from pathlib import Path
 
+import joblib
 import pandas as pd
 from sklearn.preprocessing import OneHotEncoder
 
-from src.config import FEATURES_DIR, SPLIT_DATA_DIR, TARGET_COLUMN
+from src.config import FEATURES_DIR, MODEL_DIR, SPLIT_DATA_DIR, TARGET_COLUMN
 from src.logs import get_logger
 
 logger = get_logger("feature_engineering")
@@ -25,6 +26,7 @@ def feature_engineering(
     y_test = test_df[target_column]
 
     categorical_cols = X_train.select_dtypes(include=["object", "category"]).columns
+    numerical_cols = X_train.select_dtypes(include=["number"]).columns
 
     encoder = OneHotEncoder(handle_unknown="ignore", sparse_output=False, drop="first")
     encoder.fit(X_train[categorical_cols])
@@ -54,6 +56,16 @@ def feature_engineering(
     logger.info(
         f"Feature engineering complete. Saved to {train_output_file} and {test_output_file}"
     )
+
+    preprocessor = {
+        "encoder": encoder,
+        "categorical_cols": list(categorical_cols),
+        "numerical_cols": list(numerical_cols),
+        "feature_names_out": encoder.get_feature_names_out(categorical_cols).tolist(),
+    }
+    preprocessor_path = MODEL_DIR / "preprocessor.joblib"
+    joblib.dump(preprocessor, preprocessor_path)
+    logger.info(f"Preprocessor saved to {preprocessor_path}")
 
 
 if __name__ == "__main__":

@@ -1,46 +1,48 @@
 stages:
   data_collection:
-    cmd: uv run python -m src.data_collection
+    cmd: uv run python -m src.pipeline.data_collection
     deps:
     - src/config.py
-    - src/data_collection.py
+    - src/pipeline/data_collection.py
     - src/logs.py
     outs:
     - artifacts/data/raw
   data_cleaning:
-    cmd: uv run python -m src.data_cleaning
+    cmd: uv run python -m src.pipeline.data_cleaning
     deps:
     - artifacts/data/raw
     - src/config.py
-    - src/data_cleaning.py
+    - src/pipeline/data_cleaning.py
     - src/logs.py
     outs:
     - artifacts/data/processed
   data_split:
-    cmd: uv run python -m src.data_split
+    cmd: uv run python -m src.pipeline.data_split
     deps:
     - artifacts/data/processed
     - src/config.py
-    - src/data_split.py
+    - src/pipeline/data_split.py
     - src/logs.py
     outs:
     - artifacts/data/split
   feature_engineering:
-    cmd: uv run python -m src.feature_engineering
+    cmd: uv run python -m src.pipeline.feature_engineering
     deps:
     - artifacts/data/split
     - src/config.py
-    - src/feature_engineering.py
+    - src/pipeline/feature_engineering.py
     - src/logs.py
     outs:
     - artifacts/data/features
+    - artifacts/models/preprocessor.joblib
   model_training:
-    cmd: uv run python -m src.model_training
+    cmd: uv run python -m src.pipeline.model_training
     deps:
     - artifacts/data/features
+    - artifacts/models/preprocessor.joblib
     - src/config.py
     - src/logs.py
-    - src/model_training.py
+    - src/pipeline/model_training.py
     - params.yaml
     - .env
     outs:

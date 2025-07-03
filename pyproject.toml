@@ -25,6 +25,10 @@ dependencies = [
     "ipywidgets>=8.1.7",
     "nbformat>=5.10.4",
     "seaborn>=0.13.2",
+    "requests>=2.32.4",
+    "joblib>=1.5.1",
+    "ruff>=0.12.1",
+    "optuna-integration[wandb]>=4.4.0",
 ]
 
 [dependency-groups]
