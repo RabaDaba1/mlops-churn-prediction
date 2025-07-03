@@ -58,24 +58,34 @@ To run the full data pipeline, use DVC:
 dvc repro
 ```
 
-This command will execute all stages defined in `dvc.yaml`, including data processing, feature engineering, and model training.
+This command will execute all stages defined in `dvc.yaml`, including data processing, feature engineering, and model training. Each run will create a new versioned model artifact in W&B (e.g., `v0`, `v1`).
 
 ## How to run the prediction service
 
-1.  **Set W&B environment variables:**
+The API is configured to use a specific model version to ensure stability. This version is defined in `src/config.py`.
+
+1.  **Update Model Version (Optional):**
+    After training and validating a new model, update the `WANDB_MODEL_VERSION` in `src/config.py` to point to the new version you want to deploy.
+    ```python
+    # src/config.py
+    WANDB_MODEL_VERSION = "v1" # Or your desired version
+    ```
+    Commit this change to version control your API and model pairing.
+
+2.  **Set W&B environment variables:**
     The API service needs to connect to W&B to download the model.
     ```bash
     export WANDB_PROJECT="customer-churn-prediction"
     export WANDB_ENTITY="your-wandb-username"
     ```
 
-2.  **Start the FastAPI server:**
+3.  **Start the FastAPI server:**
     ```bash
     uvicorn src.api.main:app --reload
     ```
     The API will be available at `http://127.0.0.1:8000`.
 
-3.  **Send a prediction request:**
+4.  **Send a prediction request:**
     You can use the example client to send a request to the running server.
     ```bash
     dvc repro predict

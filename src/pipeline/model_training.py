@@ -4,7 +4,6 @@ from pathlib import Path
 import dvc.api
 import git
 import pandas as pd
-import yaml
 from sklearn.metrics import (
     accuracy_score,
     f1_score,
@@ -20,17 +19,34 @@ from src.config import (
     MODEL_DIR,
     PARAMS_FILE,
     TARGET_COLUMN,
+    VERSION_FILE,
     WANDB_MODEL_NAME,
+    config,
 )
 from src.logs import get_logger
 
 logger = get_logger("model_training")
 
 
+def get_and_increment_version(version_file: Path) -> str:
+    with open(version_file, "r+") as f:
+        version_str = f.read().strip()
+        if not version_str.startswith("v"):
+            raise ValueError("Version file is corrupted")
+        current_version_num = int(version_str[1:])
+        current_version = f"v{current_version_num}"
+        next_version_num = current_version_num + 1
+        f.seek(0)
+        f.write(f"v{next_version_num}")
+        f.truncate()
+    return current_version
+
+
 def train_model(
     input_path: Path = FEATURES_DIR,
     params_file: Path = PARAMS_FILE,
     target_column: str = TARGET_COLUMN,
+    version_file: Path = VERSION_FILE,
 ):
     logger.info("Starting model training...")
 
@@ -42,28 +58,28 @@ def train_model(
     X_test = test_df.drop(columns=[target_column])
     y_test = test_df[target_column]
 
-    with open(params_file) as f:
-        params = yaml.safe_load(f)
-
-    xgb_params = params["xgboost"]
-
     repo = git.Repo(search_parent_directories=True)
     git_commit = repo.head.object.hexsha
     data_url = dvc.api.get_url(path=str(input_path), repo=repo.working_tree_dir)
 
-    config = {
+    wandb_config = {
         "git_commit": git_commit,
         "data_url": data_url,
-        **xgb_params,
+        "target_column": target_column,
+        "test_size": config.data_split.test_size,
+        "random_state": config.random_state,
+        **config.hyperparameters.model_dump(),
     }
 
     run = wandb.init(
         project=os.getenv("WANDB_PROJECT"),
-        config=config,
+        config=wandb_config,
         job_type="training",
     )
 
-    model = XGBClassifier(**xgb_params)
+    model = XGBClassifier(
+        **config.hyperparameters.model_dump(), random_state=config.random_state
+    )
     model.fit(X_train, y_train)
 
     y_pred = model.predict(X_test)
@@ -78,11 +94,15 @@ def train_model(
     }
 
     logger.info(f"Model metrics: {metrics}")
+
     wandb.log(metrics)
 
     model_path = MODEL_DIR / "model.json"
     model.save_model(str(model_path))
     logger.info(f"Model saved to {model_path}")
+
+    model_version = get_and_increment_version(version_file)
+    logger.info(f"Using model version: {model_version}")
 
     model_artifact = wandb.Artifact(
         WANDB_MODEL_NAME,
@@ -91,15 +111,15 @@ def train_model(
         metadata={
             "git_commit": git_commit,
             "data_url": data_url,
-            **xgb_params,
+            "version": model_version,
         },
     )
     model_artifact.add_file(str(model_path))
     model_artifact.add_file(str(MODEL_DIR / "preprocessor.joblib"))
     wandb.log_artifact(
         model_artifact,
-        registered_model_name=WANDB_MODEL_NAME,
-        aliases=["latest"],
+        name=WANDB_MODEL_NAME,
+        aliases=["latest", model_version],
     )
 
     run.finish()

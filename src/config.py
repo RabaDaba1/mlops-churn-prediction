@@ -1,6 +1,8 @@
 from pathlib import Path
 
+import yaml
 from dotenv import load_dotenv
+from pydantic import BaseModel
 
 load_dotenv()
 
@@ -27,6 +29,7 @@ for dir in [
 
 # DVC
 PARAMS_FILE = PROJECT_ROOT / "params.yaml"
+VERSION_FILE = PROJECT_ROOT / "version.txt"
 
 # Data
 RAW_DATA_FILE = "customer_churn_dataset-testing-master.csv"
@@ -35,12 +38,42 @@ KAGGLE_DATASET_NAME = "muhammadshahidazeem/customer-churn-dataset"
 
 # W&B
 WANDB_MODEL_NAME = "churn-model"
+WANDB_MODEL_VERSION = "v0"
 
 # Columns
 TARGET_COLUMN = "churn"
 CUSTOMER_ID_COLUMN_RAW = "customerid"
 CUSTOMER_ID_COLUMN_PROCESSED = "CustomerID"
 
-# Data Splitting
-TEST_SIZE = 0.2
-RANDOM_STATE = 42
+
+class Hyperparameters(BaseModel):
+    colsample_bytree: float
+    eval_metric: str
+    gamma: float
+    learning_rate: float
+    max_depth: int
+    min_child_weight: int
+    n_estimators: int
+    objective: str
+    subsample: float
+
+
+class DataSplit(BaseModel):
+    test_size: float
+
+
+class Config(BaseModel):
+    random_state: int
+    hyperparameters: Hyperparameters
+    data_split: DataSplit
+    target_column: str
+
+
+def load_config() -> Config:
+    with open(PARAMS_FILE, "r") as f:
+        params = yaml.safe_load(f)
+
+    return Config(**params)
+
+
+config = load_config()

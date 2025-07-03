@@ -5,8 +5,8 @@ stages:
     deps:
     - path: src/config.py
       hash: md5
-      md5: d2392757b75a0ba22d274a55b73d19bd
-      size: 1035
+      md5: 6ecc535bbc34c74f2a5465f134706dcb
+      size: 1675
     - path: src/logs.py
       hash: md5
       md5: e4b6a25cb94fc98e3ad8d72ee3a13aef
@@ -31,8 +31,8 @@ stages:
       nfiles: 1
     - path: src/config.py
       hash: md5
-      md5: d2392757b75a0ba22d274a55b73d19bd
-      size: 1035
+      md5: 6ecc535bbc34c74f2a5465f134706dcb
+      size: 1675
     - path: src/logs.py
       hash: md5
       md5: e4b6a25cb94fc98e3ad8d72ee3a13aef
@@ -57,16 +57,16 @@ stages:
       nfiles: 1
     - path: src/config.py
       hash: md5
-      md5: d2392757b75a0ba22d274a55b73d19bd
-      size: 1035
+      md5: 6ecc535bbc34c74f2a5465f134706dcb
+      size: 1675
     - path: src/logs.py
       hash: md5
       md5: e4b6a25cb94fc98e3ad8d72ee3a13aef
       size: 776
     - path: src/pipeline/data_split.py
       hash: md5
-      md5: 981fbf74c3ce8e8c310bc53929c60073
-      size: 1354
+      md5: a9477e50e60fca64087a13cf14604b2c
+      size: 1329
     outs:
     - path: artifacts/data/split
       hash: md5
@@ -83,8 +83,8 @@ stages:
       nfiles: 2
     - path: src/config.py
       hash: md5
-      md5: d2392757b75a0ba22d274a55b73d19bd
-      size: 1035
+      md5: 6ecc535bbc34c74f2a5465f134706dcb
+      size: 1675
     - path: src/logs.py
       hash: md5
       md5: e4b6a25cb94fc98e3ad8d72ee3a13aef
@@ -121,20 +121,24 @@ stages:
       size: 2222
     - path: params.yaml
       hash: md5
-      md5: 5d0c45f8dd8ee6e2cf4dc785c4dca785
-      size: 275
+      md5: bb4cada1c0c3aac0e9756d50cfffaa97
+      size: 354
     - path: src/config.py
       hash: md5
-      md5: 0adbffbe2ff1a822e62c0e59f7eb29f5
-      size: 1089
+      md5: 6ecc535bbc34c74f2a5465f134706dcb
+      size: 1675
     - path: src/logs.py
       hash: md5
       md5: e4b6a25cb94fc98e3ad8d72ee3a13aef
       size: 776
     - path: src/pipeline/model_training.py
       hash: md5
-      md5: a40bca2e99dca3aced45dc26dc7b37fd
-      size: 2607
+      md5: 5f918206f77c08eacd02c900adbe911d
+      size: 3571
+    - path: version.txt
+      hash: md5
+      md5: 0af45c99beb7a9afc9192665c4a05cd3
+      size: 2
     outs:
     - path: artifacts/models/model.json
       hash: md5

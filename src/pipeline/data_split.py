@@ -3,13 +3,7 @@ from pathlib import Path
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-from src.config import (
-    PROCESSED_DATA_DIR,
-    RANDOM_STATE,
-    SPLIT_DATA_DIR,
-    TARGET_COLUMN,
-    TEST_SIZE,
-)
+from src.config import PROCESSED_DATA_DIR, SPLIT_DATA_DIR, config
 from src.logs import get_logger
 
 logger = get_logger("data_split")
@@ -18,9 +12,9 @@ logger = get_logger("data_split")
 def split_data(
     input_path: Path = PROCESSED_DATA_DIR,
     output_path: Path = SPLIT_DATA_DIR,
-    target_column: str = TARGET_COLUMN,
-    test_size: float = TEST_SIZE,
-    random_state: int = RANDOM_STATE,
+    target_column: str = config.target_column,
+    test_size: float = config.data_split.test_size,
+    random_state: int = config.random_state,
 ):
     logger.info("Starting data splitting...")
 

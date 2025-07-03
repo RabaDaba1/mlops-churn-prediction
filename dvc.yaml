@@ -44,6 +44,7 @@ stages:
     - src/logs.py
     - src/pipeline/model_training.py
     - params.yaml
+    - version.txt
     - .env
     outs:
     - artifacts/models/model.json
