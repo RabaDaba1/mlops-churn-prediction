@@ -5,8 +5,8 @@ stages:
     deps:
     - path: src/config.py
       hash: md5
-      md5: 443ce8e057e1c570206768f125b38a84
-      size: 998
+      md5: 0adbffbe2ff1a822e62c0e59f7eb29f5
+      size: 1089
     - path: src/data_collection.py
       hash: md5
       md5: 2275ad4a0fa898e8077fe8f030c33c8f
@@ -31,8 +31,8 @@ stages:
       nfiles: 1
     - path: src/config.py
       hash: md5
-      md5: 443ce8e057e1c570206768f125b38a84
-      size: 998
+      md5: 0adbffbe2ff1a822e62c0e59f7eb29f5
+      size: 1089
     - path: src/data_cleaning.py
       hash: md5
       md5: 019022438b8b6ca6060c05c85b692bb7
@@ -57,12 +57,12 @@ stages:
       nfiles: 1
     - path: src/config.py
       hash: md5
-      md5: 443ce8e057e1c570206768f125b38a84
-      size: 998
+      md5: 0adbffbe2ff1a822e62c0e59f7eb29f5
+      size: 1089
     - path: src/data_split.py
       hash: md5
-      md5: f3e00f221703a0516e6781e05458e1af
-      size: 1810
+      md5: 981fbf74c3ce8e8c310bc53929c60073
+      size: 1354
     - path: src/logs.py
       hash: md5
       md5: e4b6a25cb94fc98e3ad8d72ee3a13aef
@@ -83,8 +83,8 @@ stages:
       nfiles: 2
     - path: src/config.py
       hash: md5
-      md5: 443ce8e057e1c570206768f125b38a84
-      size: 998
+      md5: 0adbffbe2ff1a822e62c0e59f7eb29f5
+      size: 1089
     - path: src/feature_engineering.py
       hash: md5
       md5: b7856d9ea28dd4be87882444b46c1df3
@@ -99,3 +99,36 @@ stages:
       md5: e82a36f54a74823a07042e0cbaa78365.dir
       size: 2711037
       nfiles: 2
+  model_training:
+    cmd: uv run python -m src.model_training
+    deps:
+    - path: .env
+      hash: md5
+      md5: 98f6c036323d51a4daafce2069009479
+      size: 32
+    - path: artifacts/data/features
+      hash: md5
+      md5: e82a36f54a74823a07042e0cbaa78365.dir
+      size: 2711037
+      nfiles: 2
+    - path: params.yaml
+      hash: md5
+      md5: 5d0c45f8dd8ee6e2cf4dc785c4dca785
+      size: 275
+    - path: src/config.py
+      hash: md5
+      md5: 0adbffbe2ff1a822e62c0e59f7eb29f5
+      size: 1089
+    - path: src/logs.py
+      hash: md5
+      md5: e4b6a25cb94fc98e3ad8d72ee3a13aef
+      size: 776
+    - path: src/model_training.py
+      hash: md5
+      md5: 58df778b5f78d16e8c8f718339bbe16d
+      size: 2205
+    outs:
+    - path: artifacts/models/model.json
+      hash: md5
+      md5: 975cc1e964875dcd188ce801c6eca4e8
+      size: 1290676

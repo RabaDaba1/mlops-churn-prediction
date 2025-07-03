@@ -42,3 +42,6 @@ stages:
     - src/logs.py
     - src/model_training.py
     - params.yaml
+    - .env
+    outs:
+    - artifacts/models/model.json

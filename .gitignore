@@ -2,6 +2,8 @@ __pycache__/
 .pytest_cache/
 .ipynb_checkpoints/
 artifacts/
+wandb/
+data/
 
 .dvc/cache
 .env

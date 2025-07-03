@@ -1,5 +1,9 @@
 from pathlib import Path
 
+from dotenv import load_dotenv
+
+load_dotenv()
+
 PROJECT_ROOT = Path(__file__).parent.parent
 
 ARTIFACTS_DIR = PROJECT_ROOT / "artifacts"
@@ -8,7 +12,7 @@ RAW_DATA_DIR = DATA_DIR / "raw"
 PROCESSED_DATA_DIR = DATA_DIR / "processed"
 FEATURES_DIR = DATA_DIR / "features"
 SPLIT_DATA_DIR = DATA_DIR / "split"
-MODEL_DIR = PROJECT_ROOT / "models"
+MODEL_DIR = ARTIFACTS_DIR / "models"
 PARAMS_FILE = PROJECT_ROOT / "params.yaml"
 
 LOG_DIR = PROJECT_ROOT / "logs"

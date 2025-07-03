@@ -4,7 +4,6 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 from src.config import (
-    CUSTOMER_ID_COLUMN_PROCESSED,
     PROCESSED_DATA_DIR,
     RANDOM_STATE,
     SPLIT_DATA_DIR,
@@ -25,20 +24,8 @@ def split_data(
 ):
     logger.info("Starting data splitting...")
 
-    try:
-        csv_file = next(input_path.glob("*.csv"))
-    except StopIteration:
-        logger.error(f"No CSV file found in {input_path}")
-        raise
-
+    csv_file = next(input_path.glob("*.csv"))
     df = pd.read_csv(csv_file)
-
-    if target_column not in df.columns:
-        logger.error(f"Target column '{target_column}' not found in the dataset.")
-        raise ValueError(f"Target column '{target_column}' not found.")
-
-    if CUSTOMER_ID_COLUMN_PROCESSED in df.columns:
-        df = df.drop(columns=[CUSTOMER_ID_COLUMN_PROCESSED])
 
     X = df.drop(columns=[target_column])
     y = df[target_column]
