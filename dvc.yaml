@@ -34,3 +34,11 @@ stages:
     - src/logs.py
     outs:
     - artifacts/data/features
+  model_training:
+    cmd: uv run python -m src.model_training
+    deps:
+    - artifacts/data/features
+    - src/config.py
+    - src/logs.py
+    - src/model_training.py
+    - params.yaml

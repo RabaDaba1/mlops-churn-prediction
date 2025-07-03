@@ -39,6 +39,17 @@ The goal is to build a reproducible and automated machine learning system using 
     -   This will download a `kaggle.json` file.
     -   Place this file in `~/.kaggle/kaggle.json`.
 
+4.  **Set up Weights & Biases (W&B):**
+    -   Log in to your W&B account:
+        ```bash
+        wandb login
+        ```
+    -   Set the following environment variables for your project. You can add them to a `.env` file.
+        ```bash
+        export WANDB_PROJECT="customer-churn-prediction"
+        export WANDB_ENTITY="your-wandb-username"
+        ```
+
 ## How to run
 
 To run the full data pipeline, use DVC:
@@ -47,4 +58,4 @@ To run the full data pipeline, use DVC:
 dvc repro
 ```
 
-This command will execute all stages defined in `dvc.yaml`.
+This command will execute all stages defined in `dvc.yaml`, including data processing, feature engineering, and model training.

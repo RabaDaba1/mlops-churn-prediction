@@ -9,6 +9,7 @@ PROCESSED_DATA_DIR = DATA_DIR / "processed"
 FEATURES_DIR = DATA_DIR / "features"
 SPLIT_DATA_DIR = DATA_DIR / "split"
 MODEL_DIR = PROJECT_ROOT / "models"
+PARAMS_FILE = PROJECT_ROOT / "params.yaml"
 
 LOG_DIR = PROJECT_ROOT / "logs"
 

@@ -17,6 +17,9 @@ dependencies = [
     "kagglehub>=0.3.12",
     "black>=25.1.0",
     "plotly>=6.2.0",
+    "wandb>=0.21.0",
+    "xgboost>=3.0.2",
+    "pyyaml>=6.0.2",
 ]
 
 [dependency-groups]
