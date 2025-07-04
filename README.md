@@ -19,6 +19,23 @@ The goal is to build a reproducible and automated machine learning system using 
 -   **Monitoring:** Prometheus & Grafana
 
 
+## CI/CD Setup (GitHub Actions)
+
+For the continuous training pipeline in `.github/workflows/main.yml` to run, you need to configure the following secrets and variables in your GitHub repository settings (`Settings > Secrets and variables > Actions`):
+
+### Secrets
+
+-   `B2_ACCESS_KEY_ID`: Your Backblaze B2 Application Key ID.
+-   `B2_SECRET_ACCESS_KEY`: Your Backblaze B2 Application Key.
+-   `KAGGLE_JSON`: The content of your `kaggle.json` API token file.
+-   `WANDB_API_KEY`: Your Weights & Biases API key.
+-   `WANDB_ENTITY`: Your W&B username or organization name.
+
+### Variables
+
+-   `WANDB_PROJECT`: The name of your W&B project (e.g., `customer-churn-prediction`).
+
+
 ## How to install
 
 1.  **Create a virtual environment and install dependencies:**
