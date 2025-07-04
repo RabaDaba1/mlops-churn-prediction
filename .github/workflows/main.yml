@@ -12,9 +12,22 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Fetch complete history for DVC
 
       - name: Install Git
         run: apt-get update && apt-get install -y git
+
+      - name: Debug Git repository
+        run: |
+          pwd
+          ls -la
+          git status || echo "Not a git repository"
+
+      - name: Verify Git repository
+        run: |
+          git config --global --add safe.directory "$(pwd)"
+          git status
 
       - name: Install dependencies
         run: uv sync --dev
