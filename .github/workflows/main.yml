@@ -18,13 +18,13 @@ jobs:
 
       - name: Configure DVC
         run: |
-          dvc remote add -d b2remote s3://customer-churn-prediction/dvc
-          dvc remote modify b2remote endpointurl https://s3.eu-central-003.backblazeb2.com
-          dvc remote modify b2remote access_key_id ${{ secrets.B2_ACCESS_KEY_ID }}
-          dvc remote modify b2remote secret_access_key ${{ secrets.B2_SECRET_ACCESS_KEY }}
+          uv run dvc remote add -d b2remote s3://customer-churn-prediction/dvc
+          uv run dvc remote modify b2remote endpointurl https://s3.eu-central-003.backblazeb2.com
+          uv run dvc remote modify b2remote access_key_id ${{ secrets.B2_ACCESS_KEY_ID }}
+          uv run dvc remote modify b2remote secret_access_key ${{ secrets.B2_SECRET_ACCESS_KEY }}
 
       - name: Authenticate W&B
-        run: wandb login ${{ secrets.WANDB_API_KEY }}
+        run: uv run wandb login ${{ secrets.WANDB_API_KEY }}
 
       - name: Setup Kaggle API credentials
         run: |
@@ -33,16 +33,16 @@ jobs:
           chmod 600 ~/.kaggle/kaggle.json
 
       - name: Pull DVC cache
-        run: dvc pull -r b2remote
+        run: uv run dvc pull -r b2remote
 
       - name: Reproduce DVC pipeline
         env:
           WANDB_PROJECT: ${{ vars.WANDB_PROJECT }}
           WANDB_ENTITY: ${{ secrets.WANDB_ENTITY }}
-        run: dvc repro
+        run: uv run dvc repro
 
       - name: Push DVC cache
-        run: dvc push -r b2remote
+        run: uv run dvc push -r b2remote
 
       - name: Commit and push dvc.lock
         run: |

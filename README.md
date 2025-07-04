@@ -68,7 +68,7 @@ The goal is to build a reproducible and automated machine learning system using 
 To run the full data pipeline, use DVC:
 
 ```bash
-dvc repro
+uv run dvc repro
 ```
 
 This command will execute all stages defined in `dvc.yaml`, including data processing, feature engineering, and model training. The final `model_evaluation` step compares the newly trained model's performance (ROC AUC) against the current `latest` model in the W&B registry. If the new model performs better or equally, it is promoted by being logged to W&B with the `latest` alias, creating a new version (e.g., `v0`, `v1`).
