@@ -18,8 +18,6 @@ jobs:
 
       - name: Configure DVC
         run: |
-          uv run dvc remote add -d b2remote s3://customer-churn-prediction/dvc
-          uv run dvc remote modify b2remote endpointurl https://s3.eu-central-003.backblazeb2.com
           uv run dvc remote modify b2remote access_key_id ${{ secrets.B2_ACCESS_KEY_ID }}
           uv run dvc remote modify b2remote secret_access_key ${{ secrets.B2_SECRET_ACCESS_KEY }}
 
