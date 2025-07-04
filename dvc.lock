@@ -5,8 +5,8 @@ stages:
     deps:
     - path: src/config.py
       hash: md5
-      md5: 3afdb4eef0b77230e81f6a098700c688
-      size: 1684
+      md5: 62f2e8b900b5d423ccff1fdb4735a03f
+      size: 1640
     - path: src/logs.py
       hash: md5
       md5: e4b6a25cb94fc98e3ad8d72ee3a13aef
@@ -31,8 +31,8 @@ stages:
       nfiles: 1
     - path: src/config.py
       hash: md5
-      md5: 3afdb4eef0b77230e81f6a098700c688
-      size: 1684
+      md5: 62f2e8b900b5d423ccff1fdb4735a03f
+      size: 1640
     - path: src/logs.py
       hash: md5
       md5: e4b6a25cb94fc98e3ad8d72ee3a13aef
@@ -57,8 +57,8 @@ stages:
       nfiles: 1
     - path: src/config.py
       hash: md5
-      md5: 3afdb4eef0b77230e81f6a098700c688
-      size: 1684
+      md5: 62f2e8b900b5d423ccff1fdb4735a03f
+      size: 1640
     - path: src/logs.py
       hash: md5
       md5: e4b6a25cb94fc98e3ad8d72ee3a13aef
@@ -83,8 +83,8 @@ stages:
       nfiles: 2
     - path: src/config.py
       hash: md5
-      md5: 3afdb4eef0b77230e81f6a098700c688
-      size: 1684
+      md5: 62f2e8b900b5d423ccff1fdb4735a03f
+      size: 1640
     - path: src/logs.py
       hash: md5
       md5: e4b6a25cb94fc98e3ad8d72ee3a13aef
@@ -106,10 +106,6 @@ stages:
   model_training:
     cmd: uv run python -m src.pipeline.model_training
     deps:
-    - path: .env
-      hash: md5
-      md5: 98f6c036323d51a4daafce2069009479
-      size: 32
     - path: artifacts/data/features
       hash: md5
       md5: e82a36f54a74823a07042e0cbaa78365.dir
@@ -125,22 +121,50 @@ stages:
       size: 349
     - path: src/config.py
       hash: md5
-      md5: 3afdb4eef0b77230e81f6a098700c688
-      size: 1684
+      md5: 62f2e8b900b5d423ccff1fdb4735a03f
+      size: 1640
     - path: src/logs.py
       hash: md5
       md5: e4b6a25cb94fc98e3ad8d72ee3a13aef
       size: 776
     - path: src/pipeline/model_training.py
       hash: md5
-      md5: 82fa38d48f3a705089dc5cd1fbd997ee
-      size: 2845
-    - path: version.txt
-      hash: md5
-      md5: ea7afa4937820af4157472fe4c685ddc
-      size: 3
+      md5: eab0e8fabac12bfb5bfd671d483c5147
+      size: 2308
     outs:
     - path: artifacts/models/model.json
       hash: md5
       md5: 5d461902f6a52214ff752bf88f31b45b
       size: 500406
+  model_evaluation:
+    cmd: uv run python -m src.pipeline.model_evaluation
+    deps:
+    - path: artifacts/data/features
+      hash: md5
+      md5: e82a36f54a74823a07042e0cbaa78365.dir
+      size: 2711037
+      nfiles: 2
+    - path: artifacts/models/model.json
+      hash: md5
+      md5: 5d461902f6a52214ff752bf88f31b45b
+      size: 500406
+    - path: artifacts/models/preprocessor.joblib
+      hash: md5
+      md5: c4821fbd3cb039947bd4f11fd5543a47
+      size: 2222
+    - path: params.yaml
+      hash: md5
+      md5: 10136c4b0ba1073cbd919bfabfa072f0
+      size: 349
+    - path: src/config.py
+      hash: md5
+      md5: 62f2e8b900b5d423ccff1fdb4735a03f
+      size: 1640
+    - path: src/logs.py
+      hash: md5
+      md5: e4b6a25cb94fc98e3ad8d72ee3a13aef
+      size: 776
+    - path: src/pipeline/model_evaluation.py
+      hash: md5
+      md5: 6fa51c74cc302a81f7451802631ecf22
+      size: 2974
