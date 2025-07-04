@@ -30,6 +30,7 @@ For the continuous training pipeline in `.github/workflows/main.yml` to run, you
 -   `KAGGLE_JSON`: The content of your `kaggle.json` API token file.
 -   `WANDB_API_KEY`: Your Weights & Biases API key.
 -   `WANDB_ENTITY`: Your W&B username or organization name.
+-   `CICD_PAT`: A GitHub Personal Access Token with repository write permissions to push dvc.lock changes.
 
 ### Variables
 
