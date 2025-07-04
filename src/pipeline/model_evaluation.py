@@ -41,12 +41,18 @@ def evaluate_model(
         job_type="evaluation",
     )
 
-    artifact = run.use_artifact(f"{WANDB_MODEL_NAME}:latest", type="model")
-    artifact_dir = artifact.download()
-    old_model = XGBClassifier()
-    old_model.load_model(Path(artifact_dir) / "model.json")
-    old_model_roc_auc = roc_auc_score(y_test, old_model.predict_proba(X_test)[:, 1])
-    logger.info(f"Latest registered model ROC AUC: {old_model_roc_auc}")
+    try:
+        artifact = run.use_artifact(f"{WANDB_MODEL_NAME}:latest", type="model")
+        artifact_dir = artifact.download()
+        old_model = XGBClassifier()
+        old_model.load_model(Path(artifact_dir) / "model.json")
+        old_model_roc_auc = roc_auc_score(y_test, old_model.predict_proba(X_test)[:, 1])
+        logger.info(f"Latest registered model ROC AUC: {old_model_roc_auc}")
+    except wandb.errors.CommError:
+        logger.warning(
+            "Could not find a 'latest' model in the registry. Assuming this is the first run."
+        )
+        old_model_roc_auc = -1.0
 
     run.log(
         {
