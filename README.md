@@ -35,19 +35,32 @@ The goal is to build a reproducible and automated machine learning system using 
 
 3.  **Set up Kaggle API credentials:**
     To download the dataset, you need a Kaggle account and an API token.
-    -   Go to your Kaggle account settings, and click on "Create New API Token".
-    -   This will download a `kaggle.json` file.
-    -   Place this file in `~/.kaggle/kaggle.json`.
+    -   Go to your Kaggle account settings page and click "Create New API Token".
+    -   This will download a `kaggle.json` file containing your credentials.
+    -   Place this file in `~/.kaggle/kaggle.json` on macOS/Linux or `C:\Users\<Windows-username>\.kaggle\kaggle.json` on Windows. The application will automatically use it for authentication.
 
 4.  **Set up Weights & Biases (W&B):**
-    -   Log in to your W&B account:
+    -   Log in to your W&B account. This will store your credentials for the CLI.
         ```bash
         wandb login
         ```
-    -   Set the following environment variables for your project. You can add them to a `.env` file.
+    -   Set the following environment variables for your project. You can add them to a `.env` file for local development.
         ```bash
-        export WANDB_PROJECT="customer-churn-prediction"
-        export WANDB_ENTITY="your-wandb-username"
+        WANDB_PROJECT="customer-churn-prediction"
+        WANDB_ENTITY="your-wandb-username"
+        ```
+
+5.  **Set up DVC remote storage (optional):**
+    This project is configured to use a Backblaze B2 bucket as a DVC remote. To push/pull data, you need to configure your credentials.
+    -   First, add the remote:
+        ```bash
+        dvc remote add -d b2remote s3://customer-churn-prediction/dvc
+        dvc remote modify b2remote endpointurl https://s3.eu-central-003.backblazeb2.com
+        ```
+    -   Then, configure your credentials locally. These will not be committed to Git.
+        ```bash
+        dvc remote modify --local b2remote access_key_id YOUR_KEY_ID
+        dvc remote modify --local b2remote secret_access_key YOUR_SECRET
         ```
 
 ## How to run
@@ -58,7 +71,7 @@ To run the full data pipeline, use DVC:
 dvc repro
 ```
 
-This command will execute all stages defined in `dvc.yaml`, including data processing, feature engineering, and model training. Each run will create a new versioned model artifact in W&B (e.g., `v0`, `v1`).
+This command will execute all stages defined in `dvc.yaml`, including data processing, feature engineering, and model training. The final `model_evaluation` step compares the newly trained model's performance (ROC AUC) against the current `latest` model in the W&B registry. If the new model performs better or equally, it is promoted by being logged to W&B with the `latest` alias, creating a new version (e.g., `v0`, `v1`).
 
 ## How to run the prediction service
 
@@ -84,10 +97,3 @@ The API is configured to use a specific model version to ensure stability. This 
     uvicorn src.api.main:app --reload
     ```
     The API will be available at `http://127.0.0.1:8000`.
-
-4.  **Send a prediction request:**
-    You can use the example client to send a request to the running server.
-    ```bash
-    dvc repro predict
-    ```
-    This will run the `src/api/client.py` script, which sends a sample request and prints the prediction.

@@ -18,7 +18,10 @@ repos:
     rev: 3.60.1
     hooks:
     -   id: dvc-pre-commit
+        additional_dependencies: ["dvc[s3]"]
     -   id: dvc-pre-push
+        additional_dependencies: ["dvc[s3]"]
     -   id: dvc-post-checkout
         stages: [post-checkout]
         always_run: true
+        additional_dependencies: ["dvc[s3]"]
