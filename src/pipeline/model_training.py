@@ -54,6 +54,7 @@ def train_model(
 
     run = wandb.init(
         project=os.getenv("WANDB_PROJECT"),
+        entity=os.getenv("WANDB_ENTITY"),
         config=wandb_config,
         job_type="training",
     )
@@ -83,6 +84,7 @@ def train_model(
     logger.info(f"Model saved to {model_path}")
 
     run.finish()
+
     logger.info("Model training complete.")
 
 

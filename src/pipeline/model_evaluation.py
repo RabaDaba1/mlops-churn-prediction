@@ -37,6 +37,7 @@ def evaluate_model(
 
     run = wandb.init(
         project=os.getenv("WANDB_PROJECT"),
+        entity=os.getenv("WANDB_ENTITY"),
         job_type="evaluation",
     )
 
@@ -47,7 +48,7 @@ def evaluate_model(
     old_model_roc_auc = roc_auc_score(y_test, old_model.predict_proba(X_test)[:, 1])
     logger.info(f"Latest registered model ROC AUC: {old_model_roc_auc}")
 
-    wandb.log(
+    run.log(
         {
             "new_model_roc_auc": new_model_roc_auc,
             "latest_model_roc_auc": old_model_roc_auc,
@@ -74,7 +75,7 @@ def evaluate_model(
         )
         model_artifact.add_file(str(model_path))
         model_artifact.add_file(str(MODEL_DIR / "preprocessor.joblib"))
-        wandb.log_artifact(
+        run.log_artifact(
             model_artifact,
             aliases=["latest"],
         )
@@ -83,6 +84,8 @@ def evaluate_model(
         logger.info("New model performance is worse. Not promoting.")
 
     run.finish()
+
+    logger.info("Model evaluation complete.")
 
 
 if __name__ == "__main__":
