@@ -18,7 +18,6 @@ from src.config import (
     FEATURES_DIR,
     MODEL_DIR,
     TARGET_COLUMN,
-    WANDB_MODEL_NAME,
     config,
 )
 from src.logs import get_logger
@@ -83,25 +82,8 @@ def train_model(
     model.save_model(str(model_path))
     logger.info(f"Model saved to {model_path}")
 
-    model_artifact = wandb.Artifact(
-        WANDB_MODEL_NAME,
-        type="model",
-        description="XGBoost churn prediction model",
-        metadata={
-            "git_commit": git_commit,
-            "data_url": data_url,
-        },
-    )
-    model_artifact.add_file(str(model_path))
-    model_artifact.add_file(str(MODEL_DIR / "preprocessor.joblib"))
-    wandb.log_artifact(
-        model_artifact,
-        name=WANDB_MODEL_NAME,
-        aliases=["latest"],
-    )
-
     run.finish()
-    logger.info("Model training complete and artifact logged to W&B.")
+    logger.info("Model training complete.")
 
 
 if __name__ == "__main__":

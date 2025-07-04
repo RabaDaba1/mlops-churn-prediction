@@ -48,3 +48,14 @@ stages:
     - .env
     outs:
     - artifacts/models/model.json
+  model_evaluation:
+    cmd: uv run python -m src.pipeline.model_evaluation
+    deps:
+    - artifacts/data/features
+    - artifacts/models/model.json
+    - artifacts/models/preprocessor.joblib
+    - src/config.py
+    - src/logs.py
+    - src/pipeline/model_evaluation.py
+    - params.yaml
+    - .env
