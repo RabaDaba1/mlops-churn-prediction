@@ -46,7 +46,7 @@ jobs:
         env:
           WANDB_PROJECT: ${{ vars.WANDB_PROJECT }}
           WANDB_ENTITY: ${{ secrets.WANDB_ENTITY }}
-        run: uv run dvc repro
+        run: uv run dvc repro -f
 
       - name: Push DVC cache
         run: uv run dvc push -r b2remote
