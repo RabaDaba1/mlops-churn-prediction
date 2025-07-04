@@ -8,7 +8,7 @@ on:
 jobs:
   run-pipeline:
     runs-on: ubuntu-latest
-    container: ghcr.io/astral-sh/uv:0.7.6-python3.11
+    container: ghcr.io/astral-sh/uv:0.7.6-python3.11-bookworm-slim
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
