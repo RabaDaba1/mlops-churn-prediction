@@ -13,6 +13,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install Git
+        run: apt-get update && apt-get install -y git
+
       - name: Install dependencies
         run: uv sync --dev
 
