@@ -29,7 +29,6 @@ for dir in [
 
 # DVC
 PARAMS_FILE = PROJECT_ROOT / "params.yaml"
-VERSION_FILE = PROJECT_ROOT / "version.txt"
 
 # Data
 RAW_DATA_FILE = "customer_churn_dataset-testing-master.csv"
