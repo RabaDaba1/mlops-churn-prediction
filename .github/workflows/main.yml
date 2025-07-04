@@ -28,7 +28,9 @@ jobs:
           uv run dvc remote modify b2remote secret_access_key ${{ secrets.B2_SECRET_ACCESS_KEY }}
 
       - name: Authenticate W&B
-        run: uv run wandb login ${{ secrets.WANDB_API_KEY }}
+        run: |
+          uv run wandb login ${{ secrets.WANDB_API_KEY }}
+          uv run wandb login --relogin
 
       - name: Setup Kaggle API credentials
         run: |
