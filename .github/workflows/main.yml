@@ -15,14 +15,6 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Fetch complete history for DVC
-
-      - name: Debug directory contents
-        run: |
-          pwd
-          ls -la
-          find . -name .git || echo "No .git directory found"
 
       - name: Install dependencies
         run: uv sync --dev

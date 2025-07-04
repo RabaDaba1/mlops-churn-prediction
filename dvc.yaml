@@ -44,7 +44,6 @@ stages:
     - src/logs.py
     - src/pipeline/model_training.py
     - params.yaml
-    - .env
     outs:
     - artifacts/models/model.json
   model_evaluation:
@@ -57,4 +56,3 @@ stages:
     - src/logs.py
     - src/pipeline/model_evaluation.py
     - params.yaml
-    - .env
