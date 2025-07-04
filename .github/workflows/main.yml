@@ -16,6 +16,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Configure Git safe directory
+        run: git config --global --add safe.directory "$(pwd)"
+
       - name: Install dependencies
         run: uv sync --dev
 
