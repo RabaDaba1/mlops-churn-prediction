@@ -117,8 +117,8 @@ stages:
       size: 2222
     - path: params.yaml
       hash: md5
-      md5: 09eae63da8f682ada10e545f2e9fe76a
-      size: 335
+      md5: 10136c4b0ba1073cbd919bfabfa072f0
+      size: 349
     - path: src/config.py
       hash: md5
       md5: 419c1cb29c6248d7e5fc8601f6a2656a
@@ -134,8 +134,8 @@ stages:
     outs:
     - path: artifacts/models/model.json
       hash: md5
-      md5: ff3bc46e73b2f9e5341a1f1e6786e34e
-      size: 499364
+      md5: 5d461902f6a52214ff752bf88f31b45b
+      size: 500406
   model_evaluation:
     cmd: uv run python -m src.pipeline.model_evaluation
     deps:
@@ -146,16 +146,16 @@ stages:
       nfiles: 2
     - path: artifacts/models/model.json
       hash: md5
-      md5: ff3bc46e73b2f9e5341a1f1e6786e34e
-      size: 499364
+      md5: 5d461902f6a52214ff752bf88f31b45b
+      size: 500406
     - path: artifacts/models/preprocessor.joblib
       hash: md5
       md5: c4821fbd3cb039947bd4f11fd5543a47
       size: 2222
     - path: params.yaml
       hash: md5
-      md5: 09eae63da8f682ada10e545f2e9fe76a
-      size: 335
+      md5: 10136c4b0ba1073cbd919bfabfa072f0
+      size: 349
     - path: src/config.py
       hash: md5
       md5: 419c1cb29c6248d7e5fc8601f6a2656a
