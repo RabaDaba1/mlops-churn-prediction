@@ -126,8 +126,18 @@ This executes all stages in `dvc.yaml`, including data processing, feature engin
 
 ## CI/CD Pipeline
 
-- **Continuous Delivery:** On push to `main`, GitHub Actions builds and pushes the API Docker image to Docker Hub.
-- **Model Versioning:** The workflow tags the image with both the model version and `latest`.
+- **Continuous Integration (CI):**
+  On every push or pull request, GitHub Actions runs linting and tests inside a reproducible container.
+
+- **Continuous Training (CT):**
+  On every push, a GitHub Actions workflow runs the full DVC pipeline in a containerized environment. This includes data fetching, processing, feature engineering, model training, and evaluation. The resulting model and preprocessor are logged to Weights & Biases (W&B) as artifacts.
+
+- **Continuous Delivery (CD):**
+  On push to `main`, GitHub Actions builds and pushes the API Docker image to Docker Hub.
+
+- **Model Versioning:**
+  The latest trained model from the `main` branch is always tagged as `production` in W&B. The API loads the model artifact with the `production` alias.
+
 - **Required GitHub Secrets:**
     - `DOCKERHUB_USERNAME`
     - `DOCKERHUB_TOKEN`
