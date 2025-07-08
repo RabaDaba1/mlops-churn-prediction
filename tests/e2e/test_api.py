@@ -42,9 +42,10 @@ def client():
             "contract_length_Yearly",
         ],
     }
+    # All columns must have the same length
     dummy_cat_data = pd.DataFrame(
         {
-            "gender": ["Male", "Female"],
+            "gender": ["Male", "Female", "Male"],
             "subscription_type": ["Basic", "Premium", "Standard"],
             "contract_length": ["Monthly", "Annual", "Yearly"],
         }
@@ -127,4 +128,4 @@ def test_predict_validation_error(client: TestClient):
     response = client.post("/predict", json=invalid_data)
 
     assert response.status_code == 422
-    assert "validation_error" in response.json()["detail"][0]["type"]
+    assert response.json()["detail"][0]["type"] == "int_parsing"

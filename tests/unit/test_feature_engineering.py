@@ -39,7 +39,10 @@ def test_feature_engineering(tmp_path: Path):
     src.config.MODEL_DIR = model_dir
 
     feature_engineering(
-        input_path=split_data_dir, output_path=features_dir, target_column="churn"
+        input_path=split_data_dir,
+        output_path=features_dir,
+        target_column="churn",
+        model_dir=model_dir,
     )
 
     train_featured_path = features_dir / "train_featured.csv"

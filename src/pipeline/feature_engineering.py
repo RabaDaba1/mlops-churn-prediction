@@ -14,6 +14,7 @@ def feature_engineering(
     input_path: Path = SPLIT_DATA_DIR,
     output_path: Path = FEATURES_DIR,
     target_column: str = TARGET_COLUMN,
+    model_dir: Path = MODEL_DIR,
 ):
     logger.info("Starting feature engineering...")
 
@@ -63,7 +64,7 @@ def feature_engineering(
         "numerical_cols": list(numerical_cols),
         "feature_names_out": encoder.get_feature_names_out(categorical_cols).tolist(),
     }
-    preprocessor_path = MODEL_DIR / "preprocessor.joblib"
+    preprocessor_path = model_dir / "preprocessor.joblib"
     joblib.dump(preprocessor, preprocessor_path)
     logger.info(f"Preprocessor saved to {preprocessor_path}")
 
