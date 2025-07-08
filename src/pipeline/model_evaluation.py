@@ -81,10 +81,11 @@ def evaluate_model(
         )
         model_artifact.add_file(str(model_path))
         model_artifact.add_file(str(MODEL_DIR / "preprocessor.joblib"))
-        run.log_artifact(
-            model_artifact,
-            aliases=["latest"],
-        )
+
+        branch_name = repo.active_branch.name
+        alias = "production" if branch_name == "main" else f"dev-{branch_name}"
+
+        run.log_artifact(model_artifact, aliases=[alias])
         logger.info("New model artifact logged to W&B and marked as 'latest'.")
     else:
         logger.info("New model performance is worse. Not promoting.")
