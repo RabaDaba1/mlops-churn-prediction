@@ -9,7 +9,7 @@ hyperparameters:
   n_estimators: 296
   objective: binary:logistic
   random_state: 42
-  subsample: 0.65
+  subsample: 0.6518479490069033
 data_split:
   test_size: 0.2
 target_column: churn
