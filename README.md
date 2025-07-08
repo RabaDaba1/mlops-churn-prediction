@@ -115,3 +115,25 @@ The API is configured to use a specific model version to ensure stability. This 
     uvicorn src.api.main:app --reload
     ```
     The API will be available at `http://127.0.0.1:8000`.
+
+## How to run with Docker
+
+You can run the prediction service inside a Docker container using Docker Compose. This is the recommended method for local development and testing.
+
+1.  **Create an environment file:**
+    Create a new `.env` file in the project root. Fill in your W&B credentials:
+    ```bash
+    # .env
+    WANDB_PROJECT="customer-churn-prediction"
+    WANDB_ENTITY="your-wandb-entity"
+    WANDB_API_KEY="your-wandb-api-key"
+    ```
+
+2.  **Build and run the container:**
+    From the root of the project, run:
+    ```bash
+    docker-compose up --build
+    ```
+    To run in detached mode, add the `-d` flag: `docker-compose up --build -d`.
+
+    The API will be accessible at `http://localhost:8000`. To stop the service, run `docker-compose down`.
