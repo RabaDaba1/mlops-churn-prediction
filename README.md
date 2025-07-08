@@ -137,3 +137,18 @@ You can run the prediction service inside a Docker container using Docker Compos
     To run in detached mode, add the `-d` flag: `docker-compose up --build -d`.
 
     The API will be accessible at `http://localhost:8000`. To stop the service, run `docker-compose down`.
+
+## Continuous Delivery (CD) Pipeline
+
+This project includes a GitHub Actions workflow that automatically builds and pushes the API Docker image to Docker Hub whenever changes are merged to `main`.
+
+**How it works:**
+- The workflow extracts the model version from `src/config.py`.
+- It builds the Docker image and tags it with both the model version and `latest`.
+- The image is pushed to your Docker Hub repository.
+
+**Required GitHub Secrets:**
+- `DOCKERHUB_USERNAME`: Your Docker Hub username.
+- `DOCKERHUB_TOKEN`: A Docker Hub access token with push permissions.
+
+You can later deploy this image to any cloud or Kubernetes environment.
