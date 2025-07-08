@@ -63,7 +63,7 @@ This project demonstrates a reproducible and automated ML system for customer ch
 
 - Log in:
     ```bash
-    wandb login
+    uv run wandb login
     ```
 - Set environment variables (add to `.env` for local development):
     ```bash
@@ -75,10 +75,10 @@ This project demonstrates a reproducible and automated ML system for customer ch
 
 - Add and configure remote:
     ```bash
-    dvc remote add -d b2remote s3://customer-churn-prediction/dvc
-    dvc remote modify b2remote endpointurl https://s3.eu-central-003.backblazeb2.com
-    dvc remote modify --local b2remote access_key_id YOUR_KEY_ID
-    dvc remote modify --local b2remote secret_access_key YOUR_SECRET
+    uv run dvc remote add -d b2remote s3://customer-churn-prediction/dvc
+    uv run dvc remote modify b2remote endpointurl https://s3.eu-central-003.backblazeb2.com
+    uv run dvc remote modify --local b2remote access_key_id YOUR_KEY_ID
+    uv run dvc remote modify --local b2remote secret_access_key YOUR_SECRET
     ```
 
 ---
@@ -101,7 +101,7 @@ This executes all stages in `dvc.yaml`, including data processing, feature engin
 
 2. **Start the FastAPI server:**
     ```bash
-    uvicorn src.api.main:app --reload
+    uv run uvicorn src.api.main:app --reload
     ```
     The API will be available at [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
