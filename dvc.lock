@@ -166,5 +166,5 @@ stages:
       size: 776
     - path: src/pipeline/model_evaluation.py
       hash: md5
-      md5: d4105f4ac936d9e63009fffe0a4bfcff
-      size: 3064
+      md5: d5f96519f0d612cdb1bb38a17f44cb15
+      size: 2011

@@ -32,8 +32,8 @@ def evaluate_model(
 
     new_model = XGBClassifier()
     new_model.load_model(model_path)
-    new_model_roc_auc = roc_auc_score(y_test, new_model.predict_proba(X_test)[:, 1])
-    logger.info(f"New model ROC AUC: {new_model_roc_auc}")
+    roc_auc = roc_auc_score(y_test, new_model.predict_proba(X_test)[:, 1])
+    logger.info(f"New model ROC AUC: {roc_auc}")
 
     run = wandb.init(
         project=os.getenv("WANDB_PROJECT"),
@@ -41,54 +41,30 @@ def evaluate_model(
         job_type="evaluation",
     )
 
-    try:
-        artifact = run.use_artifact(f"{WANDB_MODEL_NAME}:latest", type="model")
-        artifact_dir = artifact.download()
-        old_model = XGBClassifier()
-        old_model.load_model(Path(artifact_dir) / "model.json")
-        old_model_roc_auc = roc_auc_score(y_test, old_model.predict_proba(X_test)[:, 1])
-        logger.info(f"Latest registered model ROC AUC: {old_model_roc_auc}")
-    except wandb.errors.CommError:
-        logger.warning(
-            "Could not find a 'latest' model in the registry. Assuming this is the first run."
-        )
-        old_model_roc_auc = -1.0
+    run.log({"roc_auc": roc_auc})
 
-    run.log(
-        {
-            "new_model_roc_auc": new_model_roc_auc,
-            "latest_model_roc_auc": old_model_roc_auc,
-        }
+    repo = git.Repo(search_parent_directories=True)
+    git_commit = repo.head.object.hexsha
+    data_url = dvc.api.get_url(path=str(FEATURES_DIR), repo=repo.working_tree_dir)
+
+    model_artifact = wandb.Artifact(
+        WANDB_MODEL_NAME,
+        type="model",
+        description="XGBoost churn prediction model",
+        metadata={
+            "git_commit": git_commit,
+            "data_url": data_url,
+            "roc_auc": roc_auc,
+        },
     )
+    model_artifact.add_file(str(model_path))
+    model_artifact.add_file(str(MODEL_DIR / "preprocessor.joblib"))
 
-    if new_model_roc_auc >= old_model_roc_auc:
-        logger.info(
-            "New model performs better or equal to the latest model. Promoting."
-        )
-        repo = git.Repo(search_parent_directories=True)
-        git_commit = repo.head.object.hexsha
-        data_url = dvc.api.get_url(path=str(FEATURES_DIR), repo=repo.working_tree_dir)
+    branch_name = repo.active_branch.name
+    alias = "production" if branch_name == "main" else f"dev-{branch_name}"
 
-        model_artifact = wandb.Artifact(
-            WANDB_MODEL_NAME,
-            type="model",
-            description="XGBoost churn prediction model",
-            metadata={
-                "git_commit": git_commit,
-                "data_url": data_url,
-                "roc_auc": new_model_roc_auc,
-            },
-        )
-        model_artifact.add_file(str(model_path))
-        model_artifact.add_file(str(MODEL_DIR / "preprocessor.joblib"))
-
-        branch_name = repo.active_branch.name
-        alias = "production" if branch_name == "main" else f"dev-{branch_name}"
-
-        run.log_artifact(model_artifact, aliases=[alias])
-        logger.info("New model artifact logged to W&B and marked as 'latest'.")
-    else:
-        logger.info("New model performance is worse. Not promoting.")
+    run.log_artifact(model_artifact, aliases=[alias])
+    logger.info("New model artifact logged to W&B and marked as 'latest'.")
 
     run.finish()
 
