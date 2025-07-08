@@ -47,7 +47,7 @@ This project demonstrates a reproducible and automated ML system for customer ch
 
 2. **(Optional) Set up pre-commit hooks:**
     ```bash
-    pre-commit install --hook-type pre-commit --hook-type pre-push --hook-type post-checkout
+    uv run pre-commit install --hook-type pre-commit --hook-type pre-push --hook-type post-checkout
     ```
 
 ---
