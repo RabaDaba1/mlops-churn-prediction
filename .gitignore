@@ -5,7 +5,6 @@ artifacts/
 wandb/
 .ruff_cache/
 
-
 .dvc/cache
 .env
 .venv
