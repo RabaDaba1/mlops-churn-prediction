@@ -37,6 +37,7 @@ KAGGLE_DATASET_NAME = "muhammadshahidazeem/customer-churn-dataset"
 
 # W&B
 WANDB_MODEL_NAME = "customer-churn-model"
+MODEL_FILENAME = "model.bst"
 
 # Columns
 TARGET_COLUMN = "churn"

@@ -17,6 +17,7 @@ import wandb
 from src.config import (
     FEATURES_DIR,
     MODEL_DIR,
+    MODEL_FILENAME,
     TARGET_COLUMN,
     config,
 )
@@ -79,7 +80,7 @@ def train_model(
 
     wandb.log(metrics)
 
-    model_path = MODEL_DIR / "model.json"
+    model_path = MODEL_DIR / MODEL_FILENAME
     model.save_model(str(model_path))
     logger.info(f"Model saved to {model_path}")
 

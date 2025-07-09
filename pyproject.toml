@@ -4,14 +4,12 @@ version = "0.1.0"
 description = "MLOps project for real-time customer churn prediction."
 requires-python = "~=3.11"
 dependencies = [
-    "feast[dragonfly]",
     "prometheus-fastapi-instrumentator",
-    "fastapi>=0.115.14",
-    "uvicorn[standard]>=0.35.0",
+    "fastapi>=0.95.0,<=0.110.0",
+    "uvicorn[standard]>=0.21.1,<0.22.0",
     "scikit-learn>=1.7.0",
     "pandas>=2.3.0",
     "mlflow>=3.1.1",
-    "apache-airflow>=3.0.2",
     "kafka-python>=2.2.15",
     "dvc[s3]>=3.60.1",
     "kagglehub>=0.3.12",
@@ -29,6 +27,8 @@ dependencies = [
     "joblib>=1.5.1",
     "ruff>=0.12.1",
     "optuna-integration[wandb]>=4.4.0",
+    "kserve>=0.13.1",
+    "kfp>=2.5.0",
 ]
 
 [dependency-groups]

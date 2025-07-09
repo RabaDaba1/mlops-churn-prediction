@@ -1,0 +1,27 @@
+apiVersion: "serving.kserve.io/v1beta1"
+kind: "InferenceService"
+metadata:
+  name: "churn-predictor"
+spec:
+  predictor:
+    model:
+      modelFormat:
+        name: xgboost
+      storageUri: "s3://your-bucket-name/models" # UPDATE THIS
+      # The secret must contain AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY
+      serviceAccountName: sa-s3
+  transformer:
+    containers:
+      - image: yourdockerhubusername/churn-prediction-transformer:latest # UPDATE THIS
+        name: churn-transformer
+        env:
+          - name: WANDB_ENTITY
+            valueFrom:
+              secretKeyRef:
+                name: wandb-credentials
+                key: WANDB_ENTITY
+          - name: WANDB_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: wandb-credentials
+                key: WANDB_API_KEY

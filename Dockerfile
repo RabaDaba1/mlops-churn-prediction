@@ -8,6 +8,7 @@ RUN uv sync --no-dev
 
 COPY src/ ./src/
 COPY params.yaml ./params.yaml
+COPY model.bst ./model.bst
 
 EXPOSE 8000
 

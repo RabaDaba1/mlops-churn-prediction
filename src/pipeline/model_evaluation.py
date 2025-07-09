@@ -11,6 +11,7 @@ import wandb
 from src.config import (
     FEATURES_DIR,
     MODEL_DIR,
+    MODEL_FILENAME,
     TARGET_COLUMN,
     WANDB_MODEL_NAME,
 )
@@ -20,7 +21,7 @@ logger = get_logger("model_evaluation")
 
 
 def evaluate_model(
-    model_path: Path = MODEL_DIR / "model.json",
+    model_path: Path = MODEL_DIR / MODEL_FILENAME,
     test_data_path: Path = FEATURES_DIR / "test.csv",
     target_column: str = TARGET_COLUMN,
 ):

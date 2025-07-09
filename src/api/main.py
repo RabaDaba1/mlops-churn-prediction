@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from xgboost import XGBClassifier
 
 import wandb
-from src.config import MODEL_DIR, WANDB_MODEL_NAME
+from src.config import MODEL_DIR, MODEL_FILENAME, WANDB_MODEL_NAME
 
 preprocessor: dict | None = None
 model: XGBClassifier | None = None
@@ -27,7 +27,7 @@ async def lifespan(_: FastAPI):
     artifact_dir = artifact.download(root=MODEL_DIR)
 
     model = XGBClassifier()
-    model.load_model(os.path.join(artifact_dir, "model.json"))
+    model.load_model(os.path.join(artifact_dir, MODEL_FILENAME))
     preprocessor = joblib.load(os.path.join(artifact_dir, "preprocessor.joblib"))
     run.finish()
     yield

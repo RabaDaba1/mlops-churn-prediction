@@ -13,7 +13,9 @@ A full MLOps pipeline for real-time customer churn prediction using modern tools
 5. [Running the model training](#running-the-model-training)
 6. [Running the API](#running-the-api)
 7. [Docker Usage](#docker-usage)
-8. [CI/CD Pipeline](#cicd-pipeline)
+8. [Kubernetes Deployment with KServe](#kubernetes-deployment-with-kserve)
+9. [Kubeflow Pipeline](#kubeflow-pipeline)
+10. [CI/CD Pipeline](#cicd-pipeline)
 
 ---
 
@@ -124,6 +126,51 @@ This executes all stages in `dvc.yaml`, including data processing, feature engin
 
 ---
 
+## Kubernetes Deployment with KServe
+
+This project can be deployed on a Kubernetes cluster with KServe for scalable model serving. It uses a separate transformer for preprocessing and a predictor for inference.
+
+1.  **Prerequisites:**
+    - A running Kubernetes cluster (e.g., `kind`).
+    - KServe installed on the cluster.
+    - An S3-compatible bucket for storing model artifacts.
+
+2.  **Model Storage:**
+    - The KServe `InferenceService` expects model artifacts to be in an S3 bucket.
+    - After running the training pipeline, you must manually upload `model.bst` and `preprocessor.joblib` from the `artifacts/models` directory to your S3 bucket.
+    - Create a Kubernetes secret named `s3-credentials` with your S3 credentials:
+      ```bash
+      kubectl create secret generic s3-credentials \
+        --from-literal=AWS_ACCESS_KEY_ID='YOUR_ACCESS_KEY' \
+        --from-literal=AWS_SECRET_ACCESS_KEY='YOUR_SECRET_KEY'
+      ```
+
+3.  **Deploy the `InferenceService`:**
+    - Update `k8s/inferenceservice.yaml` with your Docker Hub username and S3 bucket details.
+    - Apply the manifests:
+      ```bash
+      kubectl apply -f k8s/
+      ```
+
+---
+
+## Kubeflow Pipeline
+
+A Kubeflow pipeline is defined to orchestrate the ML workflow on Kubernetes.
+
+1.  **Prerequisites:**
+    - A running Kubernetes cluster with Kubeflow Pipelines installed.
+
+2.  **Compile and Run the Pipeline:**
+    - Compile the pipeline definition:
+      ```bash
+      uv run python src/kubeflow/pipeline.py
+      ```
+      This will generate `kubeflow_pipeline.yaml`.
+    - Upload and run this YAML file through the Kubeflow Pipelines UI.
+
+---
+
 ## CI/CD Pipeline
 
 - **Continuous Integration (CI):**
@@ -133,10 +180,10 @@ This executes all stages in `dvc.yaml`, including data processing, feature engin
   On every push, a GitHub Actions workflow runs the full DVC pipeline in a containerized environment. This includes data fetching, processing, feature engineering, model training, and evaluation. The resulting model and preprocessor are logged to Weights & Biases (W&B) as artifacts.
 
 - **Continuous Delivery (CD):**
-  On push to `main`, GitHub Actions builds and pushes the API Docker image to Docker Hub.
+  On push to `main`, GitHub Actions builds and pushes the API and KServe transformer Docker images to Docker Hub.
 
 - **Model Versioning:**
-  The latest trained model from the `main` branch is always tagged as `production` in W&B. The API loads the model artifact with the `production` alias.
+  The latest trained model from the `main` branch is always tagged as `production` in W&B. The API and KServe transformer load the model artifact with the `production` alias.
 
 - **Required GitHub Secrets:**
     - `DOCKERHUB_USERNAME`
