@@ -21,7 +21,7 @@ logger = get_logger("model_evaluation")
 
 def evaluate_model(
     model_path: Path = MODEL_DIR / "model.json",
-    test_data_path: Path = FEATURES_DIR / "test_featured.csv",
+    test_data_path: Path = FEATURES_DIR / "test.csv",
     target_column: str = TARGET_COLUMN,
 ):
     logger.info("Starting model evaluation...")

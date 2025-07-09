@@ -49,8 +49,8 @@ def feature_engineering(
     train_featured = pd.concat([X_train_final, y_train], axis=1)
     test_featured = pd.concat([X_test_final, y_test], axis=1)
 
-    train_output_file = output_path / "train_featured.csv"
-    test_output_file = output_path / "test_featured.csv"
+    train_output_file = output_path / "train.csv"
+    test_output_file = output_path / "test.csv"
     train_featured.to_csv(train_output_file, index=False)
     test_featured.to_csv(test_output_file, index=False)
 

@@ -45,8 +45,8 @@ def test_feature_engineering(tmp_path: Path):
         model_dir=model_dir,
     )
 
-    train_featured_path = features_dir / "train_featured.csv"
-    test_featured_path = features_dir / "test_featured.csv"
+    train_featured_path = features_dir / "train.csv"
+    test_featured_path = features_dir / "test.csv"
     preprocessor_path = model_dir / "preprocessor.joblib"
 
     assert train_featured_path.exists()

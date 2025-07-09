@@ -31,8 +31,8 @@ def train_model(
 ):
     logger.info("Starting model training...")
 
-    train_df = pd.read_csv(input_path / "train_featured.csv")
-    test_df = pd.read_csv(input_path / "test_featured.csv")
+    train_df = pd.read_csv(input_path / "train.csv")
+    test_df = pd.read_csv(input_path / "test.csv")
 
     X_train = train_df.drop(columns=[target_column])
     y_train = train_df[target_column]
